@@ -1,9 +1,14 @@
 package events
 
-import "github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
+import (
+	"time"
+
+	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
+)
 
 type BlogDeleted struct {
-	ID string
+	CreatedAt time.Time
+	ID        string
 }
 
 func (e *BlogDeleted) String() string {
@@ -12,6 +17,7 @@ func (e *BlogDeleted) String() string {
 
 func NewBlogDeleted(id string) domain.Event {
 	return &BlogDeleted{
-		ID: id,
+		CreatedAt: time.Now(),
+		ID:        id,
 	}
 }

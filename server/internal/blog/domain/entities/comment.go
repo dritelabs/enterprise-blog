@@ -26,7 +26,7 @@ func NewComment(description string) Comment {
 		Description: description,
 	}
 
-	comment.Apply(events.NewCommentCreated(comment.ID))
+	comment.Apply(events.NewCommentCreated(comment.Description, comment.ID))
 
 	return comment
 }

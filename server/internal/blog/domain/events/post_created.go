@@ -8,6 +8,7 @@ import (
 )
 
 type PostCreated struct {
+	CreatedAt   time.Time
 	Description string
 	DeletedAt   *time.Time
 	ID          string
@@ -27,6 +28,7 @@ func NewPostCreated(
 	name string,
 ) domain.Event {
 	return &PostCreated{
+		CreatedAt:   time.Now(),
 		Description: description,
 		DeletedAt:   deletedAt,
 		ID:          id,

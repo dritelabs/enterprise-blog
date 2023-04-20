@@ -1,9 +1,14 @@
 package events
 
-import "github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
+import (
+	"time"
+
+	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
+)
 
 type PostDeleted struct {
-	ID string
+	CreatedAt time.Time
+	ID        string
 }
 
 func (e *PostDeleted) String() string {

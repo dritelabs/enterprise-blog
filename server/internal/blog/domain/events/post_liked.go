@@ -1,10 +1,15 @@
 package events
 
-import "github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
+import (
+	"time"
+
+	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
+)
 
 type PostLiked struct {
-	ID     string
-	UserID string
+	CreatedAt time.Time
+	ID        string
+	UserID    string
 }
 
 func (e *PostLiked) String() string {

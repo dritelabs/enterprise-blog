@@ -21,14 +21,14 @@ func (e *Blog) Blog() {
 	e.DeletedAt = &now
 }
 
-func NewBlog(name, description string) Blog {
+func NewBlog(description, name string) Blog {
 	blog := Blog{
+		Description: description,
 		ID:          cuid.New(),
 		Name:        name,
-		Description: description,
 	}
 
-	blog.Apply(events.NewBlogCreated(blog.ID))
+	blog.Apply(events.NewBlogCreated(blog.Description, blog.ID, blog.Name))
 
 	return blog
 }

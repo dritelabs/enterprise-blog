@@ -1,18 +1,25 @@
 package events
 
-import "github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
+import (
+	"time"
+
+	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
+)
 
 type CommentCreated struct {
-	ID          string
+	CreatedAt   time.Time
 	Description string
+	ID          string
 }
 
 func (e *CommentCreated) String() string {
 	return "CommentCreated"
 }
 
-func NewCommentCreated(id string) domain.Event {
+func NewCommentCreated(description, id string) domain.Event {
 	return &CommentCreated{
-		ID: id,
+		CreatedAt:   time.Now(),
+		Description: description,
+		ID:          id,
 	}
 }
