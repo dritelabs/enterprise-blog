@@ -31,7 +31,6 @@ func NewApplication() Application {
 	commentRepository := memory.NewMemoryCommentRepository(memory.CommentStore{})
 	postRepository := memory.NewMemoryPostRepository(memory.PostStore{})
 	eventBus := eventbus.NewLocalEventBus()
-
 	createPostSaga := sagas.NewCreatePostSaga(postRepository)
 
 	eventBus.Subscribe("PostCreated", func(e domain.Event) {
@@ -40,8 +39,8 @@ func NewApplication() Application {
 
 	return Application{
 		Commands: Commands{
-			CreateBlog:    commands.NewCreateBlogCommandHandler(blogRepository),
-			CreateComment: commands.NewCreateCommentCommandHandler(commentRepository),
+			CreateBlog:    commands.NewCreateBlogCommandHandler(blogRepository, eventBus),
+			CreateComment: commands.NewCreateCommentCommandHandler(commentRepository, eventBus),
 			CreatePost:    commands.NewCreatePostCommandHandler(postRepository, eventBus),
 		},
 		Queries: Queries{

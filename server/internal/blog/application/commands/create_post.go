@@ -26,9 +26,8 @@ func (c *CreatePostCommandHandler) Execute(ctx context.Context, cmd CreatePostCo
 
 	log.Info().Msgf("creating new post with id %s", post.ID)
 
-	for _, e := range post.Events() {
-		c.eventBus.Publish(e.String(), e)
-	}
+	post.WithEventBus(c.eventBus)
+	post.Commit()
 
 	return nil
 }
