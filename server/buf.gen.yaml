@@ -1,0 +1,12 @@
+version: v1
+managed:
+  enabled: true
+  go_package_prefix:
+    default: github.com/dritelabs/blog-reactive/pb
+plugins:
+  - plugin: buf.build/protocolbuffers/go
+    out: internal/blog/infrastructure/pb
+    opt: paths=source_relative
+  - plugin: buf.build/grpc/go
+    out: internal/blog/infrastructure/pb
+    opt: paths=source_relative

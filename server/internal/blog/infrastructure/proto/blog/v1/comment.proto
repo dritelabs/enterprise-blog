@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package blog.v1;
+
+message Comment {
+  string id = 1;
+  string description = 2;
+}
+
+message CreateCommentRequest {
+  string description = 1;
+}
+
+message CreateCommentResponse {
+  Comment comment = 1;
+}
+
+message DeleteCommentRequest {
+  string id = 1;
+}
+
+message DeleteCommentResponse {
+  Comment comment = 1;
+}

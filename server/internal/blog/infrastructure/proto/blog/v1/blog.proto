@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package blog.v1;
+
+import "blog/v1/comment.proto";
+import "blog/v1/post.proto";
+
+message Blog {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message CreateBlogRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message CreateBlogResponse {
+  Blog blog = 1;
+}
+
+message DeleteBlogRequest {
+  string id = 1;
+}
+
+message DeleteBlogResponse {
+  Blog blog = 1;
+}
+
+service BlogService {
+  rpc CreateBlog(CreateBlogRequest) returns (CreateBlogResponse) {}
+  rpc GetPost(GetPostRequest) returns (GetPostResponse) {}
+  rpc DeleteBlog(DeleteBlogRequest) returns (DeleteBlogResponse) {}
+  rpc CreateComment(CreateCommentRequest) returns (CreateCommentResponse) {}
+  rpc DeleteComment(DeleteCommentRequest) returns (DeleteCommentResponse) {}
+  rpc CreatePost(CreatePostRequest) returns (CreatePostResponse) {}
+  rpc DeletePost(DeletePostRequest) returns (DeletePostResponse) {}
+  rpc LikePost(LikePostRequest) returns (LikePostResponse) {}
+}
