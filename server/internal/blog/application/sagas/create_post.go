@@ -16,7 +16,9 @@ func (s *CreatePostSaga) Handle(e events.PostCreated) {
 
 	s.postRepository.Save(entities.Post{
 		Description: e.Description,
+		DeletedAt:   e.DeletedAt,
 		ID:          e.ID,
+		Likes:       e.Likes,
 		Name:        e.Name,
 	})
 }

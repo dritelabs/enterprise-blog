@@ -8,6 +8,7 @@ import (
 	"github.com/dritelabs/blog-reactive/internal/blog/infrastructure/repositories/memory"
 	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
 	eventbus "github.com/dritelabs/blog-reactive/internal/shared_kernel/infrastructure/event_bus"
+	"github.com/rs/zerolog/log"
 )
 
 type Application struct {
@@ -37,11 +38,17 @@ func NewApplication() Application {
 		createPostSaga.Handle(*e.(*events.PostCreated))
 	})
 
+	eventBus.Subscribe("PostLiked", func(e domain.Event) {
+		ev := *e.(*events.PostLiked)
+		log.Info().Msgf("post with id %s liked by user with id %s", ev.ID, ev.UserID)
+	})
+
 	return Application{
 		Commands: Commands{
 			CreateBlog:    commands.NewCreateBlogCommandHandler(blogRepository, eventBus),
 			CreateComment: commands.NewCreateCommentCommandHandler(commentRepository, eventBus),
 			CreatePost:    commands.NewCreatePostCommandHandler(postRepository, eventBus),
+			LikePost:      commands.NewLikePostCommandHandler(postRepository, eventBus),
 		},
 		Queries: Queries{
 			GetPost: queries.NewGetPostQueryHandler(postRepository),

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/dritelabs/blog-reactive/internal/blog/domain/repositories"
+	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
 )
 
 type LikePostCommand struct {
@@ -13,6 +14,7 @@ type LikePostCommand struct {
 
 type LikePostCommandHandler struct {
 	postRepository repositories.PostRepository
+	eventBus       domain.EventBus
 }
 
 func (c *LikePostCommandHandler) Execute(ctx context.Context, cmd LikePostCommand) error {
@@ -21,13 +23,19 @@ func (c *LikePostCommandHandler) Execute(ctx context.Context, cmd LikePostComman
 		return err
 	}
 
+	post.WithEventBus(c.eventBus)
 	post.Like(cmd.UserID)
+	post.Commit()
 
 	return nil
 }
 
-func NewLikePostCommandHandler(postRepository repositories.PostRepository) LikePostCommandHandler {
+func NewLikePostCommandHandler(
+	postRepository repositories.PostRepository,
+	eventBus domain.EventBus,
+) LikePostCommandHandler {
 	return LikePostCommandHandler{
 		postRepository,
+		eventBus,
 	}
 }

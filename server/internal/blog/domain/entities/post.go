@@ -24,6 +24,7 @@ func (e *Post) Delete() {
 }
 
 func (e *Post) Like(userId string) {
+
 	if e.Likes[userId] {
 		delete(e.Likes, userId)
 	} else {
@@ -31,17 +32,24 @@ func (e *Post) Like(userId string) {
 	}
 
 	e.Apply(events.NewPostLiked(e.ID, userId))
-
 }
 
-func NewPost(description, name string) Post {
+func NewPost(description, name string) *Post {
 	post := Post{
 		Description: description,
+		DeletedAt:   nil,
 		ID:          cuid.New(),
+		Likes:       make(valueobjects.Like),
 		Name:        name,
 	}
 
-	post.Apply(events.NewPostCreated(post.Description, post.ID, post.Name))
+	post.Apply(events.NewPostCreated(
+		post.Description,
+		post.DeletedAt,
+		post.ID,
+		post.Likes,
+		post.Name,
+	))
 
-	return post
+	return &post
 }
