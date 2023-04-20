@@ -4,7 +4,9 @@ import (
 	"github.com/dritelabs/blog-reactive/internal/blog/application/commands"
 	"github.com/dritelabs/blog-reactive/internal/blog/application/queries"
 	"github.com/dritelabs/blog-reactive/internal/blog/application/sagas"
+	"github.com/dritelabs/blog-reactive/internal/blog/domain/events"
 	"github.com/dritelabs/blog-reactive/internal/blog/infrastructure/repositories/memory"
+	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
 	eventbus "github.com/dritelabs/blog-reactive/internal/shared_kernel/infrastructure/event_bus"
 )
 
@@ -30,7 +32,11 @@ func NewApplication() Application {
 	postRepository := memory.NewMemoryPostRepository(memory.PostStore{})
 	eventBus := eventbus.NewLocalEventBus()
 
-	sagas.NewCreateUserSaga(eventBus, postRepository)
+	createPostSaga := sagas.NewCreatePostSaga(postRepository)
+
+	eventBus.Subscribe("PostCreated", func(e domain.Event) {
+		createPostSaga.Handle(*e.(*events.PostCreated))
+	})
 
 	return Application{
 		Commands: Commands{
