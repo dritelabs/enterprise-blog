@@ -2,8 +2,6 @@ package events
 
 import (
 	"time"
-
-	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
 )
 
 type PostDeleted struct {
@@ -15,7 +13,7 @@ func (e *PostDeleted) String() string {
 	return "PostDeleted"
 }
 
-func NewPostDeleted(id string) domain.Event {
+func NewPostDeleted(id string) *PostDeleted {
 	return &PostDeleted{
 		ID: id,
 	}

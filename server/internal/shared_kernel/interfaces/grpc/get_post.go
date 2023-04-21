@@ -10,7 +10,7 @@ import (
 )
 
 func (s *Server) GetPost(ctx context.Context, in *pb.GetPostRequest) (*pb.GetPostResponse, error) {
-	post, err := s.blogApplication.Queries.GetPost.Execute(ctx, queries.GetPostQuery{
+	post, err := s.blogApplication.Queries.GetPost.Execute(ctx, &queries.GetPostQuery{
 		ID: in.GetId(),
 	})
 

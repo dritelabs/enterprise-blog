@@ -4,7 +4,6 @@ import (
 	"time"
 
 	valueobjects "github.com/dritelabs/blog-reactive/internal/blog/domain/value_objects"
-	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
 )
 
 type PostCreated struct {
@@ -26,7 +25,7 @@ func NewPostCreated(
 	id string,
 	likes valueobjects.Like,
 	name string,
-) domain.Event {
+) *PostCreated {
 	return &PostCreated{
 		CreatedAt:   time.Now(),
 		Description: description,

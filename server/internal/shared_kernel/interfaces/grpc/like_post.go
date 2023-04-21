@@ -10,7 +10,7 @@ import (
 )
 
 func (s *Server) LikePost(ctx context.Context, in *pb.LikePostRequest) (*pb.LikePostResponse, error) {
-	err := s.blogApplication.Commands.LikePost.Execute(ctx, commands.LikePostCommand{
+	err := s.blogApplication.Commands.LikePost.Execute(ctx, &commands.LikePostCommand{
 		PostID: in.GetId(),
 		UserID: in.GetUserId(),
 	})

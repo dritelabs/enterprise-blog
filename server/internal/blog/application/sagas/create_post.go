@@ -11,7 +11,7 @@ type CreatePostSaga struct {
 	postRepository repositories.PostRepository
 }
 
-func (s *CreatePostSaga) Handle(e events.PostCreated) {
+func (s *CreatePostSaga) Handle(e *events.PostCreated) {
 	log.Info().Msg("Hello from a saga")
 
 	s.postRepository.Save(entities.Post{

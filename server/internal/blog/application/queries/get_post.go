@@ -15,7 +15,7 @@ type GetPostQueryHandler struct {
 	postRepository repositories.PostRepository
 }
 
-func (c *GetPostQueryHandler) Execute(ctx context.Context, q GetPostQuery) (*entities.Post, error) {
+func (c *GetPostQueryHandler) Execute(ctx context.Context, q *GetPostQuery) (*entities.Post, error) {
 	post, err := c.postRepository.Get(q.ID)
 	if err != nil {
 		return nil, err

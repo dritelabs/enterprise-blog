@@ -35,7 +35,7 @@ func NewApplication() Application {
 	createPostSaga := sagas.NewCreatePostSaga(postRepository)
 
 	eventBus.Subscribe("PostCreated", func(e domain.Event) {
-		createPostSaga.Handle(*e.(*events.PostCreated))
+		createPostSaga.Handle(e.(*events.PostCreated))
 	})
 
 	eventBus.Subscribe("PostLiked", func(e domain.Event) {

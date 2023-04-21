@@ -2,8 +2,6 @@ package events
 
 import (
 	"time"
-
-	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
 )
 
 type BlogCreated struct {
@@ -17,7 +15,7 @@ func (e *BlogCreated) String() string {
 	return "BlogCreated"
 }
 
-func NewBlogCreated(description, id, name string) domain.Event {
+func NewBlogCreated(description, id, name string) *BlogCreated {
 	return &BlogCreated{
 		CreatedAt:   time.Now(),
 		Description: description,

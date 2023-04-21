@@ -6,7 +6,6 @@ import (
 	"github.com/dritelabs/blog-reactive/internal/blog/domain/entities"
 	"github.com/dritelabs/blog-reactive/internal/blog/domain/repositories"
 	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
-	"github.com/rs/zerolog/log"
 )
 
 type CreatePostCommand struct {
@@ -19,13 +18,8 @@ type CreatePostCommandHandler struct {
 	eventBus       domain.EventBus
 }
 
-func (c *CreatePostCommandHandler) Execute(ctx context.Context, cmd CreatePostCommand) error {
-	log.Info().Msgf("executing create post command handler")
-
+func (c *CreatePostCommandHandler) Execute(ctx context.Context, cmd *CreatePostCommand) error {
 	post := entities.NewPost(cmd.Name, cmd.Description)
-
-	log.Info().Msgf("creating new post with id %s", post.ID)
-
 	post.WithEventBus(c.eventBus)
 	post.Commit()
 

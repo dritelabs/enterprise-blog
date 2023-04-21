@@ -8,7 +8,7 @@ import (
 )
 
 func (s *Server) CreateComment(ctx context.Context, in *pb.CreateCommentRequest) (*pb.CreateCommentResponse, error) {
-	s.blogApplication.Commands.CreateComment.Execute(ctx, commands.CreateCommentCommand{
+	s.blogApplication.Commands.CreateComment.Execute(ctx, &commands.CreateCommentCommand{
 		Description: in.GetDescription(),
 	})
 

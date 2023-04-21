@@ -2,8 +2,6 @@ package events
 
 import (
 	"time"
-
-	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
 )
 
 type PostLiked struct {
@@ -16,7 +14,7 @@ func (e *PostLiked) String() string {
 	return "PostLiked"
 }
 
-func NewPostLiked(id, userId string) domain.Event {
+func NewPostLiked(id, userId string) *PostLiked {
 	return &PostLiked{
 		ID:     id,
 		UserID: userId,

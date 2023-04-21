@@ -8,7 +8,7 @@ import (
 )
 
 func (s *Server) CreateBlog(ctx context.Context, in *pb.CreateBlogRequest) (*pb.CreateBlogResponse, error) {
-	s.blogApplication.Commands.CreateBlog.Execute(ctx, commands.CreateBlogCommand{
+	s.blogApplication.Commands.CreateBlog.Execute(ctx, &commands.CreateBlogCommand{
 		Name:        in.GetName(),
 		Description: in.GetDescription(),
 	})

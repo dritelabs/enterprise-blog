@@ -9,7 +9,6 @@ import (
 )
 
 type CreateCommentCommand struct {
-	Name        string
 	Description string
 }
 
@@ -18,9 +17,8 @@ type CreateCommentCommandHandler struct {
 	eventBus          domain.EventBus
 }
 
-func (c *CreateCommentCommandHandler) Execute(ctx context.Context, cmd CreateCommentCommand) error {
+func (c *CreateCommentCommandHandler) Execute(ctx context.Context, cmd *CreateCommentCommand) error {
 	comment := entities.NewComment(cmd.Description)
-
 	comment.WithEventBus(c.eventBus)
 	comment.Commit()
 

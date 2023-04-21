@@ -17,7 +17,7 @@ type LikePostCommandHandler struct {
 	eventBus       domain.EventBus
 }
 
-func (c *LikePostCommandHandler) Execute(ctx context.Context, cmd LikePostCommand) error {
+func (c *LikePostCommandHandler) Execute(ctx context.Context, cmd *LikePostCommand) error {
 	post, err := c.postRepository.Get(cmd.PostID)
 	if err != nil {
 		return err

@@ -18,9 +18,8 @@ type CreateBlogCommandHandler struct {
 	eventBus       domain.EventBus
 }
 
-func (c *CreateBlogCommandHandler) Execute(ctx context.Context, cmd CreateBlogCommand) error {
+func (c *CreateBlogCommandHandler) Execute(ctx context.Context, cmd *CreateBlogCommand) error {
 	blog := entities.NewBlog(cmd.Name, cmd.Description)
-
 	blog.WithEventBus(c.eventBus)
 	blog.Commit()
 
