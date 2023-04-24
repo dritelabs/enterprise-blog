@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/dritelabs/blog-reactive/internal/blog/domain/entities"
+	"github.com/dritelabs/blog-reactive/internal/blog/domain/events"
 	"github.com/dritelabs/blog-reactive/internal/blog/domain/repositories"
 	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
 )
@@ -16,10 +17,20 @@ type CreatePostCommand struct {
 type CreatePostCommandHandler struct {
 	postRepository repositories.PostRepository
 	eventBus       domain.EventBus
+	eventStore     domain.EventStore
 }
 
 func (c *CreatePostCommandHandler) Execute(ctx context.Context, cmd *CreatePostCommand) error {
-	post := entities.NewPost(cmd.Name, cmd.Description)
+	post := entities.NewPost(cmd.Description, cmd.Name)
+
+	c.eventStore.Store(ctx, events.NewPostCreated(
+		post.Description,
+		post.DeletedAt,
+		post.ID,
+		post.Likes,
+		post.Name,
+	))
+
 	post.WithEventBus(c.eventBus)
 	post.Commit()
 
@@ -29,9 +40,11 @@ func (c *CreatePostCommandHandler) Execute(ctx context.Context, cmd *CreatePostC
 func NewCreatePostCommandHandler(
 	postRepository repositories.PostRepository,
 	eventBus domain.EventBus,
+	eventStore domain.EventStore,
 ) CreatePostCommandHandler {
 	return CreatePostCommandHandler{
 		postRepository,
 		eventBus,
+		eventStore,
 	}
 }

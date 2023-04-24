@@ -5,6 +5,7 @@ import (
 
 	"github.com/dritelabs/blog-reactive/internal/blog/domain/entities"
 	"github.com/dritelabs/blog-reactive/internal/blog/domain/repositories"
+	"github.com/dritelabs/blog-reactive/internal/shared_kernel/domain"
 )
 
 var (
@@ -14,7 +15,8 @@ var (
 type PostStore map[string]entities.Post
 
 type MemoryPostRepository struct {
-	store PostStore
+	eventStore domain.EventStore
+	store      PostStore
 }
 
 func (r *MemoryPostRepository) Get(id string) (*entities.Post, error) {
@@ -38,8 +40,9 @@ func (r *MemoryPostRepository) Update(e entities.Post) (*entities.Post, error) {
 	return &e, nil
 }
 
-func NewMemoryPostRepository(store PostStore) repositories.PostRepository {
+func NewMemoryPostRepository(store PostStore, eventStore domain.EventStore) repositories.PostRepository {
 	return &MemoryPostRepository{
+		eventStore,
 		store,
 	}
 }

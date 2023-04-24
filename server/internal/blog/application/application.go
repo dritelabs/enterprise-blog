@@ -27,10 +27,10 @@ type Queries struct {
 	GetPost queries.GetPostQueryHandler
 }
 
-func NewApplication() Application {
+func NewApplication(eventStore domain.EventStore) Application {
 	blogRepository := memory.NewMemoryBlogRepository(memory.BlogStore{})
 	commentRepository := memory.NewMemoryCommentRepository(memory.CommentStore{})
-	postRepository := memory.NewMemoryPostRepository(memory.PostStore{})
+	postRepository := memory.NewMemoryPostRepository(memory.PostStore{}, eventStore)
 	eventBus := eventbus.NewLocalEventBus()
 	createPostSaga := sagas.NewCreatePostSaga(postRepository)
 
@@ -47,8 +47,8 @@ func NewApplication() Application {
 		Commands: Commands{
 			CreateBlog:    commands.NewCreateBlogCommandHandler(blogRepository, eventBus),
 			CreateComment: commands.NewCreateCommentCommandHandler(commentRepository, eventBus),
-			CreatePost:    commands.NewCreatePostCommandHandler(postRepository, eventBus),
-			LikePost:      commands.NewLikePostCommandHandler(postRepository, eventBus),
+			CreatePost:    commands.NewCreatePostCommandHandler(postRepository, eventBus, eventStore),
+			LikePost:      commands.NewLikePostCommandHandler(postRepository, eventBus, eventStore),
 		},
 		Queries: Queries{
 			GetPost: queries.NewGetPostQueryHandler(postRepository),

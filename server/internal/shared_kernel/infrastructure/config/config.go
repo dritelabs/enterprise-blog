@@ -7,6 +7,7 @@ import (
 type Config struct {
 	Environment       string `mapstructure:"ENVIRONMENT"`
 	GRPCServerAddress string `mapstructure:"GRPC_SERVER_ADDRESS"`
+	MONGOUri          string `mapstructure:"MONGODB_URI"`
 }
 
 func LoadConfig(path string) (config Config, err error) {
